@@ -1,0 +1,135 @@
+@charset "utf-8";
+/*样式初始化*/
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+img {
+  margin: 0;
+  padding: 0;
+}
+fieldset,
+img,
+input,
+button {
+  /*fieldset组合表单中的相关元素*/
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline-style: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f7fb;
+}
+ul,
+ol {
+  list-style: none;
+  /*清除列表风格*/
+}
+em,
+ul,
+li {
+  font-style: normal;
+}
+input {
+  -webkit-appearance: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-family: "PingFangSC-Regular", "Avenir", Helvetica, Arial, sans-serif, '宋体';
+}
+a {
+  text-decoration: none;
+}
+a:focus {
+  outline: none;
+}
+select,
+input {
+  vertical-align: middle;
+}
+select,
+input,
+textarea {
+  margin: 0;
+  outline-style: none;
+}
+textarea {
+  resize: none;
+}
+/*防止多行文本框拖动*/
+img {
+  border: 0;
+  vertical-align: middle;
+  max-width: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+/*  去掉图片低测默认的3像素空白缝隙*/
+table {
+  border-collapse: collapse;
+  /*合并外边线*/
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+.clearfix {
+  *zoom: 1;
+  /*IE/7/6*/
+}
+.zhangh-bodertop {
+  border-top: 1px solid #e9e9e9;
+}
+.zhangh-boderbb {
+  border-bottom: 1px solid #e9e9e9;
+}
+.zhangh-boderee {
+  border-bottom: 1px solid #eeeeee;
+}
+.zhangh-boderet {
+  border-top: 1px solid #eeeeee;
+}
+.zhangh-boder-e2 {
+  border-bottom: 1px solid #e2e2e2;
+}
+.zhangh-boder-e2-t {
+  border-top: 1px solid #e2e2e2;
+}
+.zhangh-boder-f5 {
+  border: 1px solid #f5f7fb;
+}
+.zhangh-boder-f5bot {
+  border-bottom: 1px solid #f5f7fb;
+}
+.-mob-share-weixin-qrcode-close {
+  top: 0 !important;
+  font-size: 40px !important;
+}

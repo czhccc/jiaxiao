@@ -1,32 +1,51 @@
 <template>
+  <a-config-provider :locale="locale">
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <TopBar class="top-bar" :hidden="$route.meta.showBar === false" />
+    <div class="app-content">
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </div>
-    <router-view/>
   </div>
+  </a-config-provider>
 </template>
+
+<script>
+  import TopBar from "./components/topBar/TopBar";
+
+  // 用于 ant-design-vue 配置全局中文环境
+  import { ConfigProvider } from 'ant-design-vue'; 
+  import zhCN from 'ant-design-vue/es/locale/zh_CN';
+  import moment from 'moment';
+  import 'moment/locale/zh-cn';
+
+  moment.locale('zh-cn');
+
+  export default {
+    name: 'App',
+    components: {
+      TopBar,
+      [ConfigProvider.name]: ConfigProvider,
+    },
+    data() {
+      return {
+        locale: zhCN
+      }
+    },
+    methods: {
+      moment
+    }
+  }
+</script>
 
 <style lang="less">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  // height: 100%;
+  .app-content {
+    padding-left: 165px;
+    padding-top: 100px;
   }
 }
+
 </style>
