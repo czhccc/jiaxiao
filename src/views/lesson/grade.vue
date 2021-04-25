@@ -93,7 +93,7 @@
       examTimeChange(date, dateString) {
         this.examTime = dateString
       },
-      showBtnClick() {
+      selectStudentGrade() {
         toSelectStudentGrade({
           coachId: this.trainerSearchValue,
           level: this.examType,
@@ -119,6 +119,9 @@
           this.studentData = tempStudentArr
         })
       },
+      showBtnClick() {
+        this.selectStudentGrade()
+      },
       examPass() {
         toAdapterStudentGrade({
           id: this.studentData[this.currentListIndex].exam_id,
@@ -127,10 +130,19 @@
           level: this.examType
         }).then(res => {
           console.log(res)
+          this.selectStudentGrade()
         })
       },
       examFail() {
-
+        toAdapterStudentGrade({
+          id: this.studentData[this.currentListIndex].exam_id,
+          userId: this.studentData[this.currentListIndex].user_id,
+          grade: false,
+          level: this.examType
+        }).then(res => {
+          console.log(res)
+          this.selectStudentGrade()
+        })
       },
       handleSearch(value) {
         toGetTrainerList({
@@ -150,7 +162,6 @@
       },
       listItemClick(item, index) {
         this.currentListIndex = index
-        console.log(index)
       }
     },
   }
