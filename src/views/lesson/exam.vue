@@ -9,38 +9,30 @@
           <a-date-picker class="data1" @change="examTimeChange" />
         </div>
         <div class="item">
-          考约科目：
-          <a-select default-value="one" style="width: 120px" @change="examTypeChange">
-            <a-select-option value="one">科目一</a-select-option>
-            <a-select-option value="two">科目二</a-select-option>
-            <a-select-option value="three">科目三</a-select-option>
-            <a-select-option value="four">科目四</a-select-option>
+          约考科目：
+          <a-select default-value="1" v-model="examType" style="width: 120px" @change="examTypeChange">
+            <a-select-option value="1">科目一</a-select-option>
+            <a-select-option value="2">科目二</a-select-option>
+            <a-select-option value="3">科目三</a-select-option>
+            <a-select-option value="4">科目四</a-select-option>
           </a-select>
         </div>
         <div class="item">
           带考教练：
-          <a-input class="input" v-model="trainer" />
+          <!-- <a-input class="input" v-model="trainer" /> -->
+          <a-select
+            show-search
+            option-filter-prop="children"
+            style="width: 200px"
+            @search="handleSearch"
+            @change="handleChange" >
+            <a-select-option v-for="(item, index) in trainerSearchArr" :value="item.id" :key="index" >
+              {{item.name}}
+            </a-select-option>
+          </a-select>
         </div>
         <div class="item">
           <a-button type="primary" class="btn" @click="searchBtnClick">查询</a-button>
-        </div>
-      </div>
-    </div>
-
-    <div class="main main2">
-      <div class="title">科目</div>
-      <div class="line">
-        <div class="item">
-          <a-button type="primary" class="btn" @click="examTypeOneClick">科目一</a-button>
-        </div>
-        <div class="item">
-          <a-button type="primary" class="btn" @click="examTypeTwoClick">科目二</a-button>
-        </div>
-        <div class="item">
-          <a-button type="primary" class="btn" @click="examTypeThreeClick">科目三</a-button>
-        </div>
-        <div class="item">
-          <a-button type="primary" class="btn" @click="examTypeFourClick">科目四</a-button>
         </div>
       </div>
     </div>
@@ -53,7 +45,7 @@
     </div>
 
     <div class="main main4">
-      <div class="title">约考学员条件</div>
+      <div class="title">可约考学员条件</div>
       <div class="line">
         <div class="item">
           指定身份证：
@@ -64,13 +56,22 @@
           <a-input class="input" v-model="name" />
         </div>
         <div class="item">
-          <a-button type="primary" class="btn" @click="filterBtnClick">过滤</a-button>
+          约考科目：
+          <a-select default-value="1" v-model="examType2" style="width: 120px" @change="examTypeChange2">
+            <a-select-option value="1">科目一</a-select-option>
+            <a-select-option value="2">科目二</a-select-option>
+            <a-select-option value="3">科目三</a-select-option>
+            <a-select-option value="4">科目四</a-select-option>
+          </a-select>
+        </div>
+        <div class="item">
+          <a-button type="primary" class="btn" @click="filterBtnClick">查询</a-button>
         </div>
       </div>
     </div>
 
     <div class="main main5">
-      <div class="title">已约考学员列表</div>
+      <div class="title">可约考学员列表</div>
       <div class="list">
         <List :title="title2" :theData="listData2" />
       </div>
@@ -82,6 +83,8 @@
 
 <script>
   import List from '../../components/list/List'
+
+  import { toSelectStudentGrade, toFindNoExamUser } from '../../network/network'
 
   export default {
     name: 'Exam',
@@ -101,36 +104,78 @@
           ['0000132131', '张三', '女', '56413213', '13864654654'],
         ],
         examTime: "",
-        examType: "",
+        examType: "1",
+        examType2: "1",
         trainer: "",
         identityCard: "",
         name: "",
+        trainerSearchArr: [],
+        trainerSearchValue: "",
       };
     },
     methods: {
       examTimeChange(date, dateString) {
+        console.log(dateString)
         this.examTime = dateString
       },
       examTypeChange(value) {
         this.examType = value
       },
+      examTypeChange2(value) {
+        this.examType = value
+      },
+      handleSearch(value) {
+        toGetTrainerList({
+          name: value
+        }).then(res => {
+          console.log(res)
+          this.trainerSearchArr = res.data.result
+        })
+      },
+      handleChange(value) {
+        this.trainerSearchValue = value
+      },
       searchBtnClick() {
-
-      },
-      examTypeOneClick() {
-
-      },
-      examTypeTwoClick() {
-
-      },
-      examTypeThreeClick() {
-
-      },
-      examTypeFourClick() {
-
+        toSelectStudentGrade({
+          coachId: this.trainerSearchValue,
+          level: this.examType,
+          examDate: this.examTime,
+        }).then(res => {
+          console.log(res)
+          let tempListArr = []
+          for (const i of res.data.result) {
+            let tempObj = {
+              user_id: i.user_id,
+              name: i.name,
+              sex: (i.sex==0 ? '女' : '男'),
+              identity_card: i.identity_card,
+              level: i.level,
+            }
+            tempListArr.push(tempObj)
+          }
+          this.listData1 = tempListArr
+        })
       },
       filterBtnClick() {
-
+        toFindNoExamUser({
+          identityCard: this.identityCard,
+          name: this.name,
+          level: this.examType2
+        }).then(res => {
+          console.log(res)
+          let tempListArr = []
+          for (const i of res.data.result) {
+            let tempObj = {
+              user_id: i.id,
+              name: i.name,
+              sex: (i.sex==0 ? '女' : '男'),
+              identity_card: i.identity_card,
+              phone: i.phone,
+            }
+            tempListArr.push(tempObj)
+          }
+          this.listData2 = tempListArr
+        })
       },
     },
   }

@@ -23,7 +23,6 @@
             show-search
             option-filter-prop="children"
             style="width: 200px"
-            :filter-option="filterOption"
             @search="handleSearch"
             @change="handleChange" >
             <a-select-option v-for="(item, index) in trainerSearchArr" :value="item.id" :key="index" >
@@ -77,13 +76,14 @@
       return {
         title: ['学员编号', '姓名', '性别', '证件号码', '考试科目', '考试成绩'],
         listData: [],
+        studentData: [],
         examType: "1",
         examTime: "",
         trainerName: "",
         studentName: "",
         trainerSearchValue: '',
         trainerSearchArr: [],
-        currentListItem: {},
+        currentListIndex: '',
       };
     },
     methods: {
@@ -101,23 +101,33 @@
           examDate: this.examTime,
         }).then(res => {
           console.log(res)
-          let tempArr = []
+          let tempListArr = []
+          let tempStudentArr = []
           for (const i of res.data.result) {
             let tempObj = {
               user_id: i.user_id,
               name: i.name,
-              sex: i.sex,
+              sex: (i.sex==0 ? '女' : '男'),
               identity_card: i.identity_card,
               level: i.level,
-              grade: ""
+              grade: i.grade
             }
-            tempArr.push(tempObj)
+            tempListArr.push(tempObj)
+            tempStudentArr.push(i)
           }
-          this.listData = tempArr
+          this.listData = tempListArr
+          this.studentData = tempStudentArr
         })
       },
       examPass() {
-
+        toAdapterStudentGrade({
+          id: this.studentData[this.currentListIndex].exam_id,
+          userId: this.studentData[this.currentListIndex].user_id,
+          grade: true,
+          level: this.examType
+        }).then(res => {
+          console.log(res)
+        })
       },
       examFail() {
 
@@ -138,8 +148,9 @@
           option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
         );
       },
-      listItemClick(item) {
-        this.currentListItem = item
+      listItemClick(item, index) {
+        this.currentListIndex = index
+        console.log(index)
       }
     },
   }

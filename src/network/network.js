@@ -77,6 +77,10 @@ export function toSelectStudentGrade(data={}) {
   return request_GET('/exam/findExamUser', data)
 }
 
+export function toFindNoExamUser(data={}) {
+  return request_GET('/exam/findNoExamUser', data)
+}
+
 export function toAdapterStudentGrade(data={}) {
   return request_POST('/exam/insertExamGrade', data)
 }
