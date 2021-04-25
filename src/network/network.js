@@ -60,7 +60,26 @@ export function toGetTrainerRateList(data={}) {
   return request_GET('/coach/getLevel', data)
 }
 
+/* 考试管理 */
+export function toSearchCar(data={}) {
+  return request_GET('/exam/findCar', data)
+}
 
+export function toSearchTrainerOrStudent(data={}) {
+  return request_GET('/exam/findTeach', data)
+}
+
+export function toInsertTeach(data={}) {
+  return request_POST('/exam/insertTeach', data)
+}
+
+export function toSelectStudentGrade(data={}) {
+  return request_GET('/exam/findExamUser', data)
+}
+
+export function toAdapterStudentGrade(data={}) {
+  return request_POST('/exam/insertExamGrade', data)
+}
 
 /* 车辆管理 */
 export function toGetCarList(data={}) {

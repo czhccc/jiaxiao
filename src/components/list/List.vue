@@ -5,7 +5,12 @@
       <span class="text" v-for="(item, index) in title" :key="index">{{item}}</span>
     </div>
 
-    <div class="listItem item" v-for="(iten, indey) in theData" :key="indey" @click="listItemClick(iten)" @dblclick="listItemDbclick(iten)">
+    <div class="listItem item" 
+         v-for="(iten, indey) in theData" 
+         :key="indey" 
+         :style="{backgroundColor: currentIndex == indey ? 'pink' : '' }"
+         @click="listItemClick(iten, indey)" 
+         @dblclick="listItemDbclick(iten)" >
       <span class="text" v-for="(item, index) in iten" :key="index">{{item}}</span>
     </div>
 
@@ -37,12 +42,13 @@
     },
     data () {
       return {
-        
+        currentIndex: -1
       };
     },
     methods: {
-      listItemClick(item) {
-        this.$emit('listItemClick', item)
+      listItemClick(item, index) {
+        this.$emit('listItemClick', item, index)
+        this.currentIndex = index
       },
       listItemDbclick(item) {
         if(this.$route.path == '/student/studentDropOut' || this.$route.path == '/student/studentManage' || this.$route.path == '/student/studentGraduation') {
@@ -74,9 +80,6 @@
         display: inline-block;
         width: 135px;
         text-align: center;
-        // text-overflow: ellipsis;
-        // overflow: hidden;
-        // white-space: nowrap;
       }
     }
     .listItem {

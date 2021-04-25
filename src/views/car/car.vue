@@ -8,19 +8,19 @@
       <div class="line line1">
         <div class="item">
           车牌号：
-          <a-input class="input" v-model="carID" />
+          <a-input class="input" v-model="carCard" />
         </div>
         <div class="item">
           型号：
-          <a-input class="input" v-model="carType1" />
+          <a-input class="input" v-model="carBrand" />
         </div>
         <div class="item">
           车型：
-          <a-input class="input" v-model="carType2" />
+          <a-input class="input" v-model="carStatus" />
         </div>
         <div class="item">
           保险日期：
-          <a-date-picker class="date" @change="insuranceTimeChange" />
+          <a-date-picker class="date" v-model="insuranceTime" @change="insuranceTimeChange" />
         </div>
       </div>
       <div class="line line2">
@@ -38,12 +38,12 @@
       <div class="line">
         <div class="item">
           检索条件：
-          <a-select default-value="chepai" style="width: 120px" @change="searchFactorChange">
-            <a-select-option value="chepai">车牌</a-select-option>
-            <a-select-option value="xinghao">型号</a-select-option>
-            <a-select-option value="jiaolian">教练</a-select-option>
+          <a-select default-value="card" style="width: 120px" v-model="searchFactor" @change="searchFactorChange">
+            <a-select-option value="card">车牌号</a-select-option>
+            <a-select-option value="status">型号</a-select-option>
+            <a-select-option value="coachName">教练</a-select-option>
           </a-select>
-          <a-input class="input" v-model="searchFactor" />
+          <a-input class="input" v-model="searchFactorValue" />
         </div>
         <div class="item">
           时间段：
@@ -60,7 +60,7 @@
     <div class="main main3">
       <div class="title">列表</div>
       <div class="list">
-        <List :title='title' :theData="theData" />
+        <List :title='title' :theData="theData" @listItemClick="listItemClick" />
       </div>
     </div>
 
@@ -72,7 +72,9 @@
   import TabBar from "../../components/tabBar/TabBar";
   import List from '../../components/list/List'
 
-  import { toGetCarList } from '../../network/network'
+  import { toGetCarList, toAddCar, toUpdateCar } from '../../network/network'
+
+  import moment from 'moment'
 
   export default {
     name: 'Car',
@@ -85,24 +87,18 @@
         itemList: [
           {value: '车辆查询', path: '/car'},
         ],
-        title: ['车牌号', '型号', '登记日期', '保险时间'],
+        title: ['车辆ID', '车牌号', '型号', '车型', '登记日期', '保险时间'],
         theData: [
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['001455', '捷达', '2020-20-20', '2010-08-04'],
+          ['111', '001455', '捷达', '2020-20-20', '2010-08-04'],
+          ['222', '001455', '捷达', '2020-20-20', '2010-08-04'],
         ],
-        carID: "",
-        carType1: "",
-        carType2: "",
+        id: "",
+        carCard: "",
+        carBrand: "",
+        carStatus: "",
         insuranceTime: "",
-        searchFactor: "",
+        searchFactor: "card",
+        searchFactorValue: "",
         searchTime1: "",
         searchTime2: "",
       };
@@ -111,19 +107,58 @@
       this.getCarList()
     },
     methods: {
+      moment,
       getCarList() {
         toGetCarList().then(res => {
           console.log(res)
+          let tempArr = []
+          for (const i of res.data.result) {
+            let tempObj = {
+              id: i.id,
+              carCard: i.card,
+              carBrand: i.brand,
+              carStatus: i.status,
+              registrationTime: moment(i.create_date*1000).format('YYYY-MM-DD'),
+              insuranceTime: moment(i.insure_date*1000).format('YYYY-MM-DD'),
+            }
+            tempArr.push(tempObj)
+          }
+          this.theData = tempArr
         })
       },
       insuranceTimeChange(value) {
         this.insuranceTime = value
       },
       addBtnClick() {
-
+        toAddCar({
+          card: this.carCard,
+          brand: this.carBrand,
+          status: this.carStatus,
+          insureDate: moment(this.insuranceTime).format('YYYY-MM-DD')
+        }).then(res => {
+          if(res.data.code == '200') {
+            this.$message.info('增加成功')
+            this.carCard = ""
+            this.carBrand = ""
+            this.carStatus = ""
+            this.insuranceTime = ""
+            this.getCarList()
+          } else {
+            this.$message.info('增加失败')
+          }
+        })
       },
       saveBtnClick() {
-
+        toUpdateCar({
+          id: this.id,
+          card: this.carCard,
+          brand: this.carBrand,
+          status: this.carStatus,
+          insureDate: moment(this.insuranceTime).format('YYYY-MM-DD')
+        }).then(res => {
+          console.log(res)
+          this.getCarList()
+        })
       },
       searchFactorChange(value) {
         this.searchFactor = value
@@ -135,7 +170,35 @@
         this.searchTime2 = dateString
       },
       searchBtnCLick() {
-        
+        toGetCarList({
+          [this.searchFactor]: this.searchFactorValue,
+          createDate: this.searchTime1,
+          endDate: this.searchTime2
+        }).then(res => {
+          console.log(res)
+          let tempArr = []
+          for (const i of res.data.result) {
+            let tempObj = {
+              id: i.id,
+              carCard: i.card,
+              carBrand: i.brand,
+              carStatus: i.status,
+              registrationTime: moment(i.create_date*1000).format('YYYY-MM-DD'),
+              insuranceTime: moment(i.insure_date*1000).format('YYYY-MM-DD'),
+            }
+            tempArr.push(tempObj)
+          }
+          this.theData = tempArr
+        })
+      },
+      listItemClick(item) {
+        this.id = item.id
+        this.carCard = item.carCard
+        this.carBrand = item.carBrand
+        this.carStatus = item.carStatus
+        this.registrationTime = item.registrationTime
+        this.insuranceTime = moment(item.insuranceTime)
+        console.log(moment(item.insuranceTime))
       }
     },
   }
