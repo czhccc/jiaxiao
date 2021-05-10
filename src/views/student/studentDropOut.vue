@@ -123,7 +123,7 @@
     },
     data () {
       return {
-        title: ['学员编号', '姓名', '性别', '身份证号', '出生日期', '联系地址', '联系电话'],
+        title: ['学员编号', '状态', '姓名', '性别', '身份证号', '出生日期', '联系地址', '联系电话'],
         theData: [],
         searchFactor: "name",
         searchFactorValue: "",
@@ -155,6 +155,7 @@
           for (const i of res.data.result) {
             let tempObj = {
               studentID: i.id,
+              status: i.status == 0 ? '未受理' : '已受理',
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
@@ -189,10 +190,11 @@
           for (const i of res.data.result) {
             let tempObj = {
               studentID: i.id,
+              status: i.status == 0 ? '未受理' : '已受理',
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
-              birthday: moment(i.birth*1000),
+              birthday: moment(i.birth*1000).format('YYYY-MM-DD'),
               address: i.address,
               phone: i.phone,
             }
@@ -228,7 +230,7 @@
         this.address = item.address
         this.phone = item.phone
         this.studentID = item.studentID
-        this.studentStatus =  "已受理"
+        this.studentStatus =  item.status
       },
       listItemDbclick(item) { // 双击列表项
         console.log(item)

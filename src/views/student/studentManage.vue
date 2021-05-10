@@ -25,7 +25,7 @@
             </div>
             <div class="item">
               出生日期：
-              <a-date-picker class="date" v-model="birthday" @change="birthdayChange" />
+              <a-date-picker class="date" @change="birthdayChange" />
             </div>
           </div>
           <div class="line line2">
@@ -78,6 +78,9 @@
 
       <div class="main main3">
         <div class="title">列表</div>
+        <div class="item">
+          <a-button type="primary" class="btn" @click="showDetail">显示详情</a-button>
+        </div>
         <div class="list">
           <List :title='title' :theData="theData" @listItemClick="listItemClick" @listItemDbclick="listItemDbclick" />
         </div>
@@ -129,10 +132,7 @@
           {value: '学员结业', path: '/student/studentGraduation'},
         ],
         title: ['学员编号', '姓名', '性别', '身份证号', '出生日期', '联系地址', '联系电话'],
-        theData: [
-          ['001455', '张三', '男', '3358743235131321', '1999-99-99', '青青草原羊村', '1546852358'],
-          ['001455', '张三', '男', '3358743235131321', '1999-99-99', '青青草原羊村', '1546852358'],
-        ],
+        theData: [],
         name: "",
         identityCard: "",
         sex: "0",
@@ -144,7 +144,6 @@
         searchFactorValue: "",
         searchTime1: "",
         searchTime2: "",
-
         visible: false,
         studentPersonalData: {}
       };
@@ -193,29 +192,41 @@
         this.searchTime2 = dateString
       },
       addBtnClick() { // 增加按钮
-        toAddStudentData({
-          id: this.studentID, 
-          name: this.name, 
-          phone: this.phone, 
-          sex: this.sex, 
-          address: this.address, 
-          IDCard: this.identityCard, 
-          birth: this.birthday.format('YYYY-MM-DD'), 
-        }).then(res => {
-          console.log(res)
-          if (res.data.code == '200') {
-            this.$message.info('增加成功')
-            this.studentID = ""
-            this.name = ""
-            this.phone = ""
-            this.address = ""
-            this.identityCard = ""
-            this.birthday = ""
-            this.getStudentList()
-          } else {
-            this.$message.info('增加失败')
-          }
-        })
+        if (!this.name) {
+          this.$message.info('请输入名字')
+        } else if(!this.identityCard) {
+          this.$message.info('请输入身份证')
+        } else if(!this.birthday) {
+          this.$message.info('请输入身份证')
+        } else if(!this.address) {
+          this.$message.info('请输入地址')
+        } else if(!this.phone) {
+          this.$message.info('请输入联系电话')
+        } else {
+          toAddStudentData({
+            id: this.studentID, 
+            name: this.name, 
+            phone: this.phone, 
+            sex: this.sex, 
+            address: this.address, 
+            IDCard: this.identityCard, 
+            birth: this.birthday, 
+          }).then(res => {
+            console.log(res)
+            if (res.data.code == '200') {
+              this.$message.info('增加成功')
+              this.studentID = ""
+              this.name = ""
+              this.phone = ""
+              this.address = ""
+              this.identityCard = ""
+              this.birthday = ""
+              this.getStudentList()
+            } else {
+              this.$message.info('增加失败')
+            }
+          })
+        }
       },
       saveBtnClick() { // 保存按钮
         toUpdateStudentData({ 
@@ -272,8 +283,23 @@
         this.studentID = item.studentID
       },
       listItemDbclick(item) { // 双击列表项
-        console.log(item)
-        toGetStudentPersonalData({id: item.studentID}).then(res => {
+        // console.log(item)
+        // toGetStudentPersonalData({id: item.studentID}).then(res => {
+        //   console.log(res)
+        //   let i = res.data.result
+        //   let tempObj = {
+        //     name: i.name,
+        //     identityCard: i.identityCard,
+        //     createDate: moment(i.createDate*1000).format('YYYY-MM-DD'),
+        //     status: i.status,
+        //     nextExam: i.nextExam
+        //   }
+        //   this.studentPersonalData = tempObj
+        //   this.showDrawer()
+        // })
+      },
+      showDetail() {
+        toGetStudentPersonalData({id: this.studentID}).then(res => {
           console.log(res)
           let i = res.data.result
           let tempObj = {

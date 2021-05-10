@@ -153,7 +153,7 @@
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
-              birthday: i.birth,
+              birthday: moment(i.birth*1000).format('YYYY-MM-DD'),
               address: i.address,
               phone: i.phone,
             }
@@ -187,7 +187,7 @@
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
-              birthday: i.birth,
+              birthday: moment(i.birth*1000).format('YYYY-MM-DD'),
               address: i.address,
               phone: i.phone,
             }

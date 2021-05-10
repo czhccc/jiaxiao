@@ -5,14 +5,17 @@
       <span class="text" v-for="(item, index) in title" :key="index">{{item}}</span>
     </div>
 
-    <div class="listItem item" 
-         v-for="(iten, indey) in theData" 
-         :key="indey" 
-         :style="{backgroundColor: currentIndex == indey ? 'pink' : '' }"
-         @click="listItemClick(iten, indey)" 
-         @dblclick="listItemDbclick(iten)" >
-      <span class="text" v-for="(item, index) in iten" :key="index">{{item}}</span>
+    <div class="content">
+      <div class="listItem item" 
+          v-for="(iten, indey) in theData" 
+          :key="indey" 
+          :style="{backgroundColor: currentIndex == indey ? 'pink' : '' }"
+          @click="listItemClick(iten, indey)" 
+          @dblclick="listItemDbclick(iten)" >
+        <span class="text" v-for="(item, index) in iten" :key="index">{{item}}</span>
+      </div>
     </div>
+    
 
   </div>
 </template>
@@ -63,6 +66,8 @@
   #list {
     width: 95%;
     margin-top: 10px;
+    // height: 200px;
+    // overflow: scroll;
     .title {
       .text {
         font-weight: 700;
@@ -81,12 +86,29 @@
         text-align: center;
       }
     }
-    .listItem {
-      cursor: pointer;
-      color: #9A9A9A;
-    }
-    .listItem:nth-of-type(even) {
-      background-color: #F8F8F8;
+    .content {
+      height: 150px;
+      overflow-y: scroll;
+      .item {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 40px;
+        background-color: white;
+        position: relative;
+        .text {
+          display: inline-block;
+          width: 135px;
+          text-align: center;
+        }
+      }
+      .listItem {
+        cursor: pointer;
+        color: #9A9A9A;
+      }
+      .listItem:nth-of-type(even) {
+        background-color: #F8F8F8;
+      }
     }
   }
 </style>
