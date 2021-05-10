@@ -52,7 +52,6 @@
       },
       listItemDbclick(item) {
         if(this.$route.path == '/student/studentDropOut' || this.$route.path == '/student/studentManage' || this.$route.path == '/student/studentGraduation') {
-          console.log('发出事件')
           this.$emit('listItemDbclick', item)
         }
       }

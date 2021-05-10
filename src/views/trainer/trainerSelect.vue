@@ -126,18 +126,7 @@
           {value: '教练离职', path: '/trainer/trainerDropOut'},
         ],
         title: ['姓名', '编号', '性别', '身份证号', '准驾车型', '准教车型', '证号', '工资', '联系电话'],
-        theData: [
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-          ['张三', '男', '3358743235131321', 'A2', '小型汽车', '香（以）1432', '999', '1254865932'],
-        ],
+        theData: [],
         id: "",
         name: "",
         identityCard: "",
@@ -158,7 +147,7 @@
       this.getTrainerList()
     },
     methods: {
-      getTrainerList() {
+      getTrainerList() { // 获取教练列表
         toGetTrainerList().then(res => {
           console.log(res)
           let tempArr = []
@@ -179,16 +168,16 @@
           this.theData = tempArr
         })
       },
-      sexChange(value) {
+      sexChange(value) { // 性别
         this.sex = value
       },
-      driveCarChange(value) {
+      driveCarChange(value) { // 准驾车型
         this.driveCar = value
       },
-      teachCarChange(value) {
+      teachCarChange(value) { // 准教车型
         this.teachCar = value
       },
-      addBtnClick() {
+      addBtnClick() { // 增加 按钮
         toAddTrainer({
           name: this.name,
           identityCard: this.identityCard,
@@ -216,7 +205,7 @@
           }
         })
       },
-      saveBtnClick() {
+      saveBtnClick() { // 保存 按钮
         toUpdateTrainer({
           id: this.id,
           name: this.name,
@@ -237,19 +226,16 @@
           }
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 检索条件改变
         this.searchFactor = value 
       },
-      searchTime1Change(date, dateString) {
+      searchTime1Change(date, dateString) { // 检索时间1
         this.searchTime1 = dateString
       },
-      searchTime2Change(date, dateString) {
+      searchTime2Change(date, dateString) { // 检索时间2
         this.searchTime2 = dateString
       },
-      searchTimeChange2(value, dateString) {
-        this.searchTime2 = dateString
-      },
-      searchBtnClick() {
+      searchBtnClick() { // 搜索按钮
         toGetTrainerList({
           [this.searchFactor]: this.searchFactorValue,
           createDate: this.searchTime1,
@@ -274,7 +260,7 @@
           this.theData = tempArr
         })
       },
-      listItemClick(item) {
+      listItemClick(item) { // 点击列表项
         this.name = item.name
         this.id = item.id
         this.identityCard = item.identityCard

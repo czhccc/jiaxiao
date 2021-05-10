@@ -87,13 +87,13 @@
       };
     },
     methods: {
-      examTypeChange(value) {
+      examTypeChange(value) { // 送考相关信息 约考科目
         this.examType = value
       },
-      examTimeChange(date, dateString) {
+      examTimeChange(date, dateString) { // 送考相关信息 指定考试时间
         this.examTime = dateString
       },
-      selectStudentGrade() {
+      selectStudentGrade() { // 显示记录 的网络请求
         toSelectStudentGrade({
           coachId: this.trainerSearchValue,
           level: this.examType,
@@ -119,10 +119,10 @@
           this.studentData = tempStudentArr
         })
       },
-      showBtnClick() {
+      showBtnClick() { // 显示记录 按钮
         this.selectStudentGrade()
       },
-      examPass() {
+      examPass() { // 考试合格 按钮
         toAdapterStudentGrade({
           id: this.studentData[this.currentListIndex].exam_id,
           userId: this.studentData[this.currentListIndex].user_id,
@@ -133,7 +133,7 @@
           this.selectStudentGrade()
         })
       },
-      examFail() {
+      examFail() { // 不合格 按钮
         toAdapterStudentGrade({
           id: this.studentData[this.currentListIndex].exam_id,
           userId: this.studentData[this.currentListIndex].user_id,
@@ -144,7 +144,7 @@
           this.selectStudentGrade()
         })
       },
-      handleSearch(value) {
+      handleSearch(value) { // 指定带考教练 的模糊查询
         toGetTrainerList({
           name: value
         }).then(res => {
@@ -152,15 +152,10 @@
           this.trainerSearchArr = res.data.result
         })
       },
-      handleChange(value) {
+      handleChange(value) { // 选定 指定带考教练 的值
         this.trainerSearchValue = value
       },
-      filterOption(input, option) {
-        return (
-          option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
-        );
-      },
-      listItemClick(item, index) {
+      listItemClick(item, index) { // 点击列表项
         this.currentListIndex = index
       }
     },

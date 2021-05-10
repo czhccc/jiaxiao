@@ -51,11 +51,11 @@
       };
     },
     methods: {
-      yzmClick() {
+      yzmClick() { // 发送验证码 按钮
         if(this.email == '') {
           this.$message.info('请输入邮箱')
         } else {
-          toModifyPassword({
+          toModifyPassword({ // 发送验证码 网络请求
             "receiveMailAccount": this.email, 
             "isForget": "true"
           }).then(res => {
@@ -63,14 +63,14 @@
           })
         }
       },
-      completeClick() {
+      completeClick() { // 完成 按钮
         if(this.password !== this.confirmPassword) {
           this.$message.info('确认密码错误')
         }
         if(this.password.length <= 6) {
           this.$message.info('请输入6位数以上的密码')
         } else {
-          toCompleteModifyPassword({
+          toCompleteModifyPassword({ // 点击完成按钮后发送的网络请求
             "email": this.email, 
             "password": this.password, 
             "record": this.yzm

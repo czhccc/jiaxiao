@@ -157,7 +157,7 @@
     },
     methods: {
       moment,
-      getStudentList() {
+      getStudentList() { // 获取学生列表
         toGetStudentList().then(res => {
           console.log(res)
           let tempArr = []
@@ -176,23 +176,23 @@
           this.theData = tempArr
         })
       },
-      sexChange(value) {
+      sexChange(value) { // 性别
         this.sex = value
       },
-      birthdayChange(date, dateString) {
+      birthdayChange(date, dateString) { // 出生日期
         this.birthday = dateString
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 检索条件改变
         this.searchFactor = value 
       },
-      searchTime1Change(date, dateString) {
+      searchTime1Change(date, dateString) { // 学员检索 时间1
         console.log(dateString)
         this.searchTime1 = dateString
       },
-      searchTime2Change(date, dateString) {
+      searchTime2Change(date, dateString) { // 学员检索 时间2
         this.searchTime2 = dateString
       },
-      addBtnClick() {
+      addBtnClick() { // 增加按钮
         toAddStudentData({
           id: this.studentID, 
           name: this.name, 
@@ -217,7 +217,7 @@
           }
         })
       },
-      saveBtnClick() {
+      saveBtnClick() { // 保存按钮
         toUpdateStudentData({ 
           id: this.studentID, 
           name: this.name, 
@@ -225,7 +225,7 @@
           sex: this.sex, 
           address: this.address, 
           identityCard: this.identityCard, 
-          birth: this.birthday.format('YYYY-MM-DD'), 
+          birth: this.birthday, 
         }).then(res => {
           if (res.data.code == '200') {
             this.$message.info('修改成功')
@@ -235,7 +235,7 @@
           }
         })
       },
-      searchBtnClick() {
+      searchBtnClick() { // 查询按钮
         console.log(this.searchFactorValue)
         console.log(this.searchFactor)
         toGetStudentList({
@@ -260,7 +260,7 @@
           this.theData = tempArr
         })
       },
-      listItemClick(item) {
+      listItemClick(item) { // 点击列表项
         console.log(moment(item.birthdayList).format('YYYY-MM-DD'))
         // console.log(moment(moment(item.birthdayList).unix()).format('YYYY-MM-DD'))
         this.name = item.name
@@ -271,17 +271,26 @@
         this.phone = item.phone
         this.studentID = item.studentID
       },
-      listItemDbclick(item) {
+      listItemDbclick(item) { // 双击列表项
         console.log(item)
         toGetStudentPersonalData({id: item.studentID}).then(res => {
-          this.studentPersonalData = res.data.result
+          console.log(res)
+          let i = res.data.result
+          let tempObj = {
+            name: i.name,
+            identityCard: i.identityCard,
+            createDate: moment(i.createDate*1000).format('YYYY-MM-DD'),
+            status: i.status,
+            nextExam: i.nextExam
+          }
+          this.studentPersonalData = tempObj
           this.showDrawer()
         })
       },
-      showDrawer() {
+      showDrawer() {  // 控制双击列表项后的右边信息栏显示
         this.visible = true;
       },
-      onClose() {
+      onClose() {  // 控制双击列表项后的右边信息栏关闭
         this.visible = false;
       },
     },

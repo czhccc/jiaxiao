@@ -153,7 +153,7 @@
     },
     methods: {
       moment,
-      getTrainerList() {
+      getTrainerList() { // 获取教练列表
         toGetTrainerList().then(res => {
           console.log(res)
           let tempArr = []
@@ -174,19 +174,19 @@
           this.theData = tempArr
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 检索条件改变
         this.searchFactor = value
       },
-      sexChange(value) {
+      sexChange(value) { // 性别
         this.sex = value
       },
-      searchTimeChange1(date, dateString) {
+      searchTimeChange1(date, dateString) { // 教练检索 时间1
         this.searchTime1 = dateString
       },
-      searchTimeChange2(date, dateString) {
+      searchTimeChange2(date, dateString) { // 教练检索 时间2
         this.searchTime2 = dateString
       },
-      searhBtnClick() {
+      searhBtnClick() { // 查询按钮
         toGetTrainerList({
           [this.searchFactor]: this.searchFactorValue,
           createDate: this.searchTime1,
@@ -210,16 +210,16 @@
           this.theData = tempArr
         })
       },
-      driveCarChange(value) {
+      driveCarChange(value) { // 准驾车型
         this.driveCar = value
       },
-      teachCarChange(value) {
+      teachCarChange(value) { // 准教车型
         this.teachCar = value
       },
-      dropOutTimeChange(date, dateString) {
+      dropOutTimeChange(date, dateString) { // 离职时间
         this.dropOutTime = dateString
       },
-      confirmDropOutBtnClick() {
+      confirmDropOutBtnClick() { // 确认离职 按钮
         toTrainerDropOut({
           id: this.id,
           email: sessionStorage.getItem('loginAccount')
@@ -227,7 +227,7 @@
           console.log(res)
         })
       },
-      listItemClick(item) {
+      listItemClick(item) { // 单机列表项
         this.name = item.name
         this.id = item.id
         this.sex = item.sex

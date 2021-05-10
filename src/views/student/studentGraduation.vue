@@ -119,18 +119,7 @@
     data () {
       return {
         title: ['学员编号', '姓名', '性别', '身份证号', '出生日期', '联系地址', '联系电话'],
-        theData: [
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-        ],
+        theData: [],
         searchFactor: "name",
         searchFactorValue: "",
         searchTime1: "",
@@ -154,7 +143,7 @@
     },
     methods: {
       moment,
-      getStudentList() {
+      getStudentList() { // 获取学生列表
         toGetStudentList().then(res => {
           console.log(res)
           let tempArr = []
@@ -173,16 +162,16 @@
           this.theData = tempArr
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 学员检索 检索条件改变
         this.searchFactor = value
       },
-      searchTimeChange1(date, dateString) {
+      searchTimeChange1(date, dateString) { // 学员检索 时间1
         this.searchTime1 = dateString
       },
-      searchTimeChange2(date, dateString) {
+      searchTimeChange2(date, dateString) { // 学员检索 时间2
         this.searchTime2 = dateString
       },
-      searchBtnClick() {
+      searchBtnClick() { // 点击 查询按钮
         console.log(this.searchFactorValue)
         console.log(this.searchFactor)
         toGetStudentList({
@@ -207,10 +196,10 @@
           this.theData = tempArr
         })
       },
-      graduationTimeChange(date, dateString) {
+      graduationTimeChange(date, dateString) { // 结业时间
         this.graduationTime = dateString
       },
-      graduationBtnClick() {
+      graduationBtnClick() { // 结业按钮
         if (this.studentID == '') {
           this.$message.info('请填入学生信息')
         } else if (this.licenseNumber == '') {
@@ -230,7 +219,7 @@
           })
         }
       },
-      listItemClick(item) {
+      listItemClick(item) { // 点击列表项
         this.studentID = item.studentID
         this.name = item.name
         this.identityCard = item.identityCard
@@ -240,7 +229,7 @@
         this.address = item.address
         this.phone = item.phone
       },
-      listItemDbclick(item) {
+      listItemDbclick(item) { // 双击列表项
         toGetStudentPersonalData({id: item.studentID}).then(res => {
           console.log('222')
           console.log(res)
@@ -248,10 +237,10 @@
           this.showDrawer()
         })
       },
-      showDrawer() {
+      showDrawer() {  // 控制双击列表项后的右边信息栏显示
         this.visible = true;
       },
-      onClose() {
+      onClose() {  // 控制双击列表项后的右边信息栏关闭
         this.visible = false;
       },
     },

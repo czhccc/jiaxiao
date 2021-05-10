@@ -60,7 +60,7 @@
       <div class="line line3">
         <div class="item">
           退学日期：
-          <a-date-picker disabled class="data1" :default-value="moment(new Date(), 'YYYY-MM-DD')" @change="dropOutTimeChange" />
+          <a-date-picker disabled class="data1" :default-value="moment(new Date(), 'YYYY-MM-DD')" />
         </div>
         <div class="item">
           <a-button type="primary" @click="confirmDropOutBtnClick">确认退学</a-button>
@@ -73,8 +73,7 @@
       placement="right"
       :closable="false"
       :visible="visible"
-      @close="onClose"
-    >
+      @close="onClose" >
       <p>姓名：{{studentPersonalData.name}}</p>
       <p>身份证号码：{{studentPersonalData.identityCard}}</p>
       <p>报名时间：{{studentPersonalData.createDate}}</p>
@@ -125,18 +124,7 @@
     data () {
       return {
         title: ['学员编号', '姓名', '性别', '身份证号', '出生日期', '联系地址', '联系电话'],
-        theData: [
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-          ['001455', '张三', '男', '3358743235131321', '', '1546852358', 'C1'],
-        ],
+        theData: [],
         searchFactor: "name",
         searchFactorValue: "",
         searchTime1: "",
@@ -160,7 +148,7 @@
     },
     methods: {
       moment,
-      getStudentList() {
+      getStudentList() { // 获取学生列表
         toGetStudentList().then(res => {
           console.log(res)
           let tempArr = []
@@ -170,7 +158,7 @@
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
-              birthday: i.birth,
+              birthday: moment(i.birth*1000).format('YYYY-MM-DD'),
               address: i.address,
               phone: i.phone,
             }
@@ -179,16 +167,16 @@
           this.theData = tempArr
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 学员检索 检索条件改变
         this.searchFactor = value
       },
-      searchTimeChange1(date, dateString) {
+      searchTimeChange1(date, dateString) { // 学员检索 时间1
         this.searchTime1 = dateString
       },
-      searchTimeChange2(date, dateString) {
+      searchTimeChange2(date, dateString) { // 学员检索 时间2
         this.searchTime2 = dateString
       },
-      searchBtnClick() {
+      searchBtnClick() { // 点击 学员检索 查询按钮
         console.log(this.searchFactorValue)
         console.log(this.searchFactor)
         toGetStudentList({
@@ -204,7 +192,7 @@
               name: i.name,
               sex: i.sex,
               identityCard: i.identityCard,
-              birthday: i.birth,
+              birthday: moment(i.birth*1000),
               address: i.address,
               phone: i.phone,
             }
@@ -213,10 +201,7 @@
           this.theData = tempArr
         })
       },
-      dropOutTimeChange(date, dateString) {
-        // this.dropOutTime = dateString
-      },
-      confirmDropOutBtnClick() {
+      confirmDropOutBtnClick() { // 确认退学 按钮
         toStudentDropOut({
           id: this.studentID,
           email: sessionStorage.getItem('loginAccount')
@@ -234,26 +219,26 @@
           }
         })
       },
-      listItemClick(item) {
+      listItemClick(item) { // 点击列表项
         console.log(item)
         this.name = item.name
         this.identityCard = item.identityCard
         this.sex = item.sex
         this.birthday = "2021-4-15"
-        // this.birthday = item.birth
         this.address = item.address
         this.phone = item.phone
         this.studentID = item.studentID
         this.studentStatus =  "已受理"
       },
-      listItemDbclick(item) {
+      listItemDbclick(item) { // 双击列表项
         console.log(item)
         toGetStudentPersonalData({id: item.studentID}).then(res => {
+          console.log(res)
           this.studentPersonalData = res.data.result
           this.showDrawer()
         })
       },
-      showDrawer() {
+      showDrawer() { // 双击列表项后显示
         this.visible = true;
       },
       onClose() {
@@ -314,9 +299,6 @@
       .line3 {
         margin-left: 53%;
       }
-    }
-    .main3 {
-
     }
   }
 </style>

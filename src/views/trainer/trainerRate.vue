@@ -42,18 +42,7 @@
     data () {
       return {
         title: ['姓名', '身份证号', '科目二通过率', '科目三通过率', '总通过率'],
-        theData: [
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-          ['张三', '3358743235131321', '99%', '88%', '77%', '123'],
-        ],
+        theData: [],
         searchYear: "2021",
         searchName: "",
       };
@@ -62,7 +51,7 @@
       this.getTrainerRateList()
     },
     methods: {
-      getTrainerRateList() {
+      getTrainerRateList() { // 获取列表
         toGetTrainerRateList({
           year: '2021'
         }).then(res => {
@@ -82,13 +71,13 @@
           this.theData = tempArr
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 姓名
         this.searchFactor = value
       },
-      searchTimeChange(value) {
+      searchTimeChange(value) { // 搜索时间
         this.searchTime1 = value
       },
-      searchBtnClick() {
+      searchBtnClick() { // 查询按钮
         if(this.searchYear == '') {
           this.$message.info('请输入年份')
         } else {

@@ -85,6 +85,10 @@ export function toAdapterStudentGrade(data={}) {
   return request_POST('/exam/insertExamGrade', data)
 }
 
+export function toArrangeExam(data={}) {
+  return request_POST('/exam/insertExamUser', data)
+}
+
 /* 车辆管理 */
 export function toGetCarList(data={}) {
   return request_GET('/car/list', data)

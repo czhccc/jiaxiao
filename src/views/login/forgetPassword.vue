@@ -51,7 +51,7 @@
       };
     },
     methods: {
-      yzmClick() {
+      yzmClick() { // 发送验证码按钮
         if(this.email == '') {
           this.$message.info('请输入邮箱')
         } else {
@@ -63,7 +63,7 @@
           })
         }
       },
-      completeClick() {
+      completeClick() { // 完成按钮
         if(this.password !== this.confirmPassword) {
           this.$message.info('确认密码错误')
         }

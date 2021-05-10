@@ -88,10 +88,7 @@
           {value: '车辆查询', path: '/car'},
         ],
         title: ['车辆ID', '车牌号', '型号', '车型', '登记日期', '保险时间'],
-        theData: [
-          ['111', '001455', '捷达', '2020-20-20', '2010-08-04'],
-          ['222', '001455', '捷达', '2020-20-20', '2010-08-04'],
-        ],
+        theData: [],
         id: "",
         carCard: "",
         carBrand: "",
@@ -104,15 +101,14 @@
       };
     },
     created() {
-      this.getCarList()
+      this.getCarList() 
     },
     methods: {
       moment,
       getCarList() {
-        toGetCarList().then(res => {
-          console.log(res)
+        toGetCarList().then(res => { // 网络请求车辆列表
           let tempArr = []
-          for (const i of res.data.result) {
+          for (const i of res.data.result) { // 重组数据结构
             let tempObj = {
               id: i.id,
               carCard: i.card,
@@ -123,14 +119,14 @@
             }
             tempArr.push(tempObj)
           }
-          this.theData = tempArr
+          this.theData = tempArr // 保存重组后的数据
         })
       },
-      insuranceTimeChange(value) {
+      insuranceTimeChange(value) { // 保险日期 改变后保存改变的值
         this.insuranceTime = value
       },
-      addBtnClick() {
-        toAddCar({
+      addBtnClick() { // 增加 按钮
+        toAddCar({ // 增加车辆的网络请求
           card: this.carCard,
           brand: this.carBrand,
           status: this.carStatus,
@@ -148,7 +144,7 @@
           }
         })
       },
-      saveBtnClick() {
+      saveBtnClick() { // 保存 按钮
         toUpdateCar({
           id: this.id,
           card: this.carCard,
@@ -156,26 +152,24 @@
           status: this.carStatus,
           insureDate: moment(this.insuranceTime).format('YYYY-MM-DD')
         }).then(res => {
-          console.log(res)
           this.getCarList()
         })
       },
-      searchFactorChange(value) {
+      searchFactorChange(value) { // 检索条件 改变
         this.searchFactor = value
       },
-      searchTimeChange1(date, dateString) {
+      searchTimeChange1(date, dateString) { // 车辆检索 时间段1 保存
         this.searchTime1 = dateString
       },
-      searchTimeChange2(date, dateString) {
+      searchTimeChange2(date, dateString) { // 车辆检索 时间段2 保存
         this.searchTime2 = dateString
       },
-      searchBtnCLick() {
-        toGetCarList({
+      searchBtnCLick() { // 车辆检索 查询 按钮
+        toGetCarList({ // 查询车辆的网络请求
           [this.searchFactor]: this.searchFactorValue,
           createDate: this.searchTime1,
           endDate: this.searchTime2
         }).then(res => {
-          console.log(res)
           let tempArr = []
           for (const i of res.data.result) {
             let tempObj = {
@@ -191,7 +185,7 @@
           this.theData = tempArr
         })
       },
-      listItemClick(item) {
+      listItemClick(item) { // 点击列表的具体项 将具体项的数据保存到录入区相关的数据
         this.id = item.id
         this.carCard = item.carCard
         this.carBrand = item.carBrand

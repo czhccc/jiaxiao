@@ -27,25 +27,26 @@
 
 
 <script>
+  // 导入组件、函数等
   import { toLogin } from '../../network/network'
 
   export default {
-    name: 'Login',
-    components: {
+    name: 'Login', // 当前组件在vue插件中显示的名称，
+    components: { // 导入的组件需要在此注册
     },
-    data () {
+    data () { // 当前组件中定义的变量
       return {
         account: '793210471@qq.com',
         password: '1234567'  
       };
     },
-    created() {
+    created() { // 组件生命周期函数之一
       let loginAccout = sessionStorage.getItem('loginAccount')
       if (loginAccout == '') {
         this.$router.replace('/login')
       }
     },
-    methods: {
+    methods: { // 当前组件定义的函数
       btnClick() {
         if(this.account == '') {
           this.$message.info('请输入账号');
@@ -68,7 +69,7 @@
           }
         }
       },
-      forgetPassword() {
+      forgetPassword() { // 跳转到忘记密码页面
         this.$router.push('/forgetPassword')
       }
     },

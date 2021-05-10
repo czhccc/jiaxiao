@@ -109,12 +109,12 @@
     },
     methods: {
       moment,
-      getCarList() {
+      getCarList() { // 获取车辆列表
         toSearchCar().then(res => {
           this.carData = res.data.result
         })
       },
-      searchCar() {
+      searchCar() { // 查询车辆按钮
         toSearchCar({
           card: this.searchCarValue
         }).then(res => {
@@ -122,7 +122,7 @@
           this.carData = res.data.result
         })
       },
-      carItemClick(item, index) {
+      carItemClick(item, index) { // 点击车辆列表项
         console.log(item)
         this.carChoosed = index
         toSearchTrainerOrStudent({
@@ -133,7 +133,7 @@
           this.studentData = res.data.result.student
         })
       },
-      saveBtnClick() {
+      saveBtnClick() { // 点击保存按钮
         toInsertTeach({
           carId: this.carData[this.carChoosed].id,
           coachId: this.trainerData[this.trainerChoosed].id,
@@ -149,10 +149,10 @@
           }
         })
       },
-      trainerItemClick(item, index) {
+      trainerItemClick(item, index) { // 点击教练列表项
         this.trainerChoosed = index
       },
-      studentItemClick(item, index) {
+      studentItemClick(item, index) { // 点击学生列表项
         if (this.studentChoosed.length < 3) {
           this.studentChoosed.push(index)
         } else {
@@ -160,7 +160,7 @@
           this.studentChoosed.push(index)
         }
       },
-      lessonTimeChange(value) {
+      lessonTimeChange(value) { // 选择上课时间
         this.lessonTime = value
       },
     },
