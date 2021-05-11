@@ -62,9 +62,9 @@
             let tempObj = {
               name: j.name,
               shenfen: j.identity_card,
-              kemu2: j.er_yes_num / j.er_num,
-              kemu3: j.san_yes_num / j.san_num,
-              zong: (j.er_yes_num + j.san_yes_num) / (j.er_num + j.san_num),
+              kemu2: (j.er_yes_num / j.er_num).toFixed(3),
+              kemu3: (j.san_yes_num / j.san_num).toFixed(3),
+              zong: ((j.er_yes_num + j.san_yes_num) / (j.er_num + j.san_num)).toFixed(3),
             }
             tempArr.push(tempObj)
           }
@@ -92,9 +92,9 @@
               let tempObj = {
                 name: j.name,
                 shenfen: j.identity_card,
-                kemu2: j.er_yes_num / j.er_num,
-                kemu3: j.san_yes_num / j.san_num,
-                zong: (j.er_yes_num + j.san_yes_num) / (j.er_num + j.san_num),
+                kemu2: (j.er_yes_num / j.er_num).toFixed(3),
+                kemu3: (j.san_yes_num / j.san_num).toFixed(3),
+                zong: ((j.er_yes_num + j.san_yes_num) / (j.er_num + j.san_num)).toFixed(3),
               }
               tempArr.push(tempObj)
             }

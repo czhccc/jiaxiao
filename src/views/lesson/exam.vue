@@ -78,7 +78,7 @@
         </div>
         <div class="item">
           约考科目：
-          <a-select default-value="1" v-model="arrangeExamType" style="width: 120px" @change="examTypeChange">
+          <a-select default-value="1" v-model="examType2" style="width: 120px" @change="examTypeChange">
             <a-select-option value="1">科目一</a-select-option>
             <a-select-option value="2">科目二</a-select-option>
             <a-select-option value="3">科目三</a-select-option>
@@ -141,6 +141,14 @@
         arrangeItem: {},
         arrangeExamType: "1",
       };
+    },
+    created() {
+      toGetTrainerList({
+        name: ''
+      }).then(res => {
+        console.log(res)
+        this.trainerSearchArr = res.data.result
+      })
     },
     methods: {
       examTimeChange(date, dateString) { // 考试信息 考试时间

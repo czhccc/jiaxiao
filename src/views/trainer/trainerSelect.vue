@@ -155,7 +155,7 @@
             let tempObj = {
               name: i.name,
               id: i.id,
-              sex: i.sex,
+              sex: i.sex==0 ? '女' : '男',
               identityCard: i.identityCard,
               driveCar: i.level,
               teachCar: i.model,
@@ -181,7 +181,7 @@
         toAddTrainer({
           name: this.name,
           identityCard: this.identityCard,
-          sex: this.sex,
+          sex: this.sex==0 ? '女' : '男',
           phone: this.phone,
           level: this.driveCar,
           model:  this.teachCar,
@@ -247,9 +247,9 @@
             let tempObj = {
               name: i.name,
               id: i.id,
-              sex: i.sex,
+              sex: i.sex==0 ? '女' : '男',
               identityCard: i.identityCard,
-              driveCar: i.model,
+              driveCar: i.level,
               teachCar: i.model,
               trainCardNumber: i.credentials,
               salary: i.amount,

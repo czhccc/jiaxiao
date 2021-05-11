@@ -161,7 +161,7 @@
             let tempObj = {
               name: i.name,
               id: i.id,
-              sex: i.sex,
+              sex: i.sex==0 ? '女' : '男',
               identityCard: i.identityCard,
               driveCar: i.level,
               teachCar: i.model,
@@ -197,7 +197,8 @@
           for (const i of res.data.result) {
             let tempObj = {
               name: i.name,
-              sex: i.sex,
+              id: i.id,
+              sex: i.sex==0 ? '女' : '男',
               identityCard: i.identityCard,
               driveCar: i.level,
               teachCar: i.model,
